@@ -4,7 +4,7 @@
 require 'rubygems'
 require 'redis'
 require 'json'
-require 'debugger'
+require 'byebug'
 
 $redis = Redis.new
 
