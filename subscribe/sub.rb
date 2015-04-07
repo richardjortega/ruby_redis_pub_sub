@@ -1,12 +1,13 @@
 require 'rubygems'
 require 'redis'
 require 'json'
+require 'byebug'
 
 $redis = Redis.new(timeout: 0)
 
-$redis.subscribe('rubyonrails', 'ruby-lang') do |on|
+$redis.subscribe("B016005991000520", "B016005991000520.c2") do |on|
   on.message do |channel, msg|
     data = JSON.parse(msg)
-    puts "##{channel} - [#{data['user']}]: #{data['msg']}"
+    puts "Msg Received: #{channel} | #{data}"
   end
 end

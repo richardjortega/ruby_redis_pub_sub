@@ -1,0 +1,8 @@
+subscribe:
+  build: ./subscribe
+  links:
+    - database
+publish:
+  build: ./publish
+database:
+  image: redis
