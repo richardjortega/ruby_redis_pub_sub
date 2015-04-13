@@ -7,7 +7,7 @@ require 'json'
 require 'byebug'
 require 'awesome_print'
 
-@redis = Redis.new(host: 'database')
+@redis = Redis.new(host: 'redis')
 
 def set_devices
   # "B016005991000520" => value

@@ -3,7 +3,7 @@ require 'redis'
 require 'json'
 require 'byebug'
 
-@redis = Redis.new(host: 'database', timeout: 0)
+@redis = Redis.new(host: 'redis', timeout: 0)
 
 @redis.subscribe("B016005991000520", "B016005991000520.c2") do |on|
   on.message do |channel, msg|
