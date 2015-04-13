@@ -7,10 +7,11 @@ require 'json'
 require 'byebug'
 require 'awesome_print'
 
-@redis = Redis.new
+@redis = Redis.new(host: 'database')
 
 def set_devices
   # "B016005991000520" => value
+  commands = []
   device = {}
   device_id = "B016005991000520"
   device.update(device_id => { device_name: "HYBRID",
@@ -66,13 +67,21 @@ def set_devices
 
   # Redis.new.publish channel/key, value
   # Publish Device Message (contains all Component Messages)
-  @redis.publish device_id, device[device_id].to_json
+  messages = {}
+  messages[device_id] = device[device_id].to_json
 
   device[device_id][:components].each do |component|
     # Remove configuration descriptors
     component = component.reject{|k,v| k == :configuration_descriptors}
     # Publish Component Message (subset of Device Message)
-    @redis.publish "#{device_id}.c#{component[:component_id]}", component.to_json
+    messages["#{device_id}.c#{component[:component_id]}"] = component.to_json
+  end
+
+  @redis.pipelined do
+    messages.each do |key, value|
+      @redis.publish key, value
+      puts "Sent Message: #{key} | #{value}"
+    end
   end
 end
 

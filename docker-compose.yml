@@ -1,8 +1,12 @@
 subscribe:
   build: ./subscribe
+  command: ruby sub.rb
   links:
     - database
 publish:
   build: ./publish
+  command: ruby pub.rb
+  links:
+    - database
 database:
   image: redis
