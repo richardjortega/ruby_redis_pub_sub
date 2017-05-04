@@ -3,8 +3,17 @@ services:
   subscribe:
     build: ./subscribe
     command: ruby sub.rb
+    depends_on: 
+      - publish
+      - redis
+    labels:
+      com.microsoft.acs.dcos.marathon.healthcheck.path: '/'
   publish:
     build: ./publish
     command: ruby pub.rb
+    depends_on:
+      - redis
+    labels:
+      com.microsoft.acs.dcos.marathon.healthcheck.path: '/'
   redis:
     image: redis
