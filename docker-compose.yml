@@ -1,12 +1,14 @@
-subscribe:
-  build: ./subscribe
-  command: ruby sub.rb
-  links:
-    - redis
-publish:
-  build: ./publish
-  command: ruby pub.rb
-  links:
-    - redis
-redis:
-  image: redis
+version: "2"
+services:
+  subscribe:
+    build: ./subscribe
+    command: ruby sub.rb
+    links:
+      - redis
+  publish:
+    build: ./publish
+    command: ruby pub.rb
+    links:
+      - redis
+  redis:
+    image: redis
